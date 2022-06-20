@@ -3,10 +3,15 @@ const Card = require("../models/card");
 
 router.post("/", (req, res) => {
   const { name, link } = req.body;
-  const owner = req.user._id
+  const owner = req.user._id;
   Card.create({ name, link, owner })
     .then((card) => res.status(201).send({ card }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name == "ValidationError") {
+        return res.status(400).send({ message: err.message });
+      }
+      return res.status(500).send({ message: err.massage });
+    });
 });
 
 router.get("/", (req, res) => {
@@ -26,7 +31,9 @@ router.put("/:cardId/likes", (req, res) => {
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true }
-  ).then(() => res.send({message: 'лайк поставлен'})).catch((err) => res.status({message: err.message}));
+  )
+    .then(() => res.send({ message: "лайк поставлен" }))
+    .catch((err) => res.status({ message: err.message }));
 });
 
 router.delete("/:cardId/likes", (req, res) => {
@@ -34,7 +41,9 @@ router.delete("/:cardId/likes", (req, res) => {
     req.params.cardId,
     { $$pull: { likes: req.user._id } },
     { new: true }
-  ).then(() => res.send({message: 'лайк поставлен'})).catch((err) => res.status({message: err.message}));
+  )
+    .then(() => res.send({ message: "лайк поставлен" }))
+    .catch((err) => res.status({ message: err.message }));
 });
 
 module.exports = router;
