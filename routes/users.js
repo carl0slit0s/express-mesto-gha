@@ -5,10 +5,14 @@ router.post("/", (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.status(201).send({ data: user }))
-    .catch((err) => res.status(500).send({ name: err.name, "message": err.massage }));
-    // .catch(err => {
-    //   if (err.name == '')
-    // });
+    // .catch((err) => res.status(500).send({ name: err.name, "message": err.massage }));
+    .catch(err => {
+      if (err.name == 'ValidationError') {
+        return res.status(400).send({message: err.message})
+
+      }
+      return res.status(500).send({"message": err.massage })
+    });
 });
 
 router.get("/", (req, res) => {
