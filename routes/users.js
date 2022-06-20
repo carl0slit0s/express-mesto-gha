@@ -36,16 +36,30 @@ router.patch("/me", (req, res) => {
   User.findByIdAndUpdate(
     req.user._id,
     { name: name, about: about, avatar: avatar },
-    { new: true }
+    { new: true, runValidators: true }
   )
     .then((user) => res.send(user))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name == "ValidationError") {
+        return res.status(400).send({ message: err.message });
+      }
+      return res.status(500).send({ message: err.massage });
+    });
 });
 
 router.patch("/me/avatar", (req, res) => {
-  User.findByIdAndUpdate(req.user._id, { avatar: req.params.avatar })
+  User.findByIdAndUpdate(
+    req.user._id,
+    { avatar: req.body.avatar },
+    { new: true, runValidators: true }
+  )
     .then((avatar) => res.send({ avatar }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name == "ValidationError") {
+        return res.status(400).send({ message: err.message });
+      }
+      return res.status(500).send({ message: err.massage });
+    });
 });
 
 module.exports = router;
