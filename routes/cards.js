@@ -3,7 +3,8 @@ const Card = require("../models/card");
 
 router.post("/", (req, res) => {
   const { name, link } = req.body;
-  Card.create({ name, link })
+  const owner = req.user._id
+  Card.create({ name, link, owner })
     .then((card) => res.status(201).send({ card }))
     .catch((err) => res.status(500).send({ message: err.message }));
 });
