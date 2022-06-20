@@ -5,7 +5,10 @@ router.post("/", (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.status(201).send({ data: user }))
-    .catch(() => res.status(500).send({ message: "Произошла ошибка" }));
+    .catch((err) => res.status(500).send({ name: err.name, "message": err.massage }));
+    // .catch(err => {
+    //   if (err.name == '')
+    // });
 });
 
 router.get("/", (req, res) => {
@@ -21,17 +24,15 @@ router.get("/:userId", (req, res) => {
 });
 
 router.patch("/me", (req, res) => {
-  User.findByIdAndUpdate(req.user._id, {user: req.params.user})
+  User.findByIdAndUpdate(req.user._id, { user: req.params.user })
     .then((user) => res.send({ user }))
     .catch((err) => res.status(500).send({ message: err.message }));
 });
 
 router.patch("/me/avatar", (req, res) => {
-  User.findByIdAndUpdate(req.user._id, {avatar: req.params.avatar})
+  User.findByIdAndUpdate(req.user._id, { avatar: req.params.avatar })
     .then((avatar) => res.send({ avatar }))
     .catch((err) => res.status(500).send({ message: err.message }));
 });
-
-
 
 module.exports = router;
