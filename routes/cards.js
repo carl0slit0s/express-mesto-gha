@@ -4,7 +4,8 @@ const Card = require("../models/card");
 router.post("/", (req, res) => {
   const { name, link } = req.body;
   const owner = req.user._id;
-  Card.create({ name, link, owner })
+  const likes = []
+  Card.create({ name, link, owner, likes })
     .then((card) => res.status(201).send({ card }))
     .catch((err) => {
       if (err.name == "ValidationError") {
