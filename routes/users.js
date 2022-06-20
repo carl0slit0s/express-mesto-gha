@@ -22,12 +22,19 @@ router.get("/", (req, res) => {
 
 router.get("/:userId", (req, res) => {
   User.findById(req.params.userId)
+    .orFail(() =>
+      new Error('NotFound')
+    )
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name == "CastError") {
         return res.status(400).send({ message: err.message });
       }
-      return res.status(500).send({ message: err.massage });
+      if (err.name == "Error") {
+        return res.status(404).send({ message: err.message });
+      }
+
+      return res.status(500).send({ message: err.name });
     });
 });
 
