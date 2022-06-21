@@ -21,9 +21,18 @@ module.exports.getCards = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  Card.findById(req.params.cardId)
+  Card.findByIdAndRemove(req.params.cardId)
+    .orFail(() => new Error("NotFound"))
     .then(() => res.send({ message: "карточка удалена" }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => {
+      if (err.name == "CastError") {
+        return res.status(400).send({ message: err.message });
+      }
+      if (err.name == "Error") {
+        return res.status(404).send({ message: err.message });
+      }
+      return res.status(500).send({ message: err.message });
+    });
 };
 
 module.exports.likeCard = (req, res) =>
