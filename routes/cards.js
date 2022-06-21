@@ -1,50 +1,14 @@
 const router = require("express").Router();
 const Card = require("../models/card");
 
-router.post("/", (req, res) => {
-  const { name, link } = req.body;
-  const owner = req.user._id;
-  const likes = []
-  Card.create({ name, link, owner, likes })
-    .then((card) => res.status(201).send({ card }))
-    .catch((err) => {
-      if (err.name == "ValidationError") {
-        return res.status(400).send({ message: err.message });
-      }
-      return res.status(500).send({ message: err.massage });
-    });
-});
+const {addCard, getCards, deleteCard, likeCard, dislikeCard} = require('../controllers/card')
 
-router.get("/", (req, res) => {
-  Card.find({})
-    .then((cards) => res.send(cards))
-    .catch((err) => res.status(500).send({ message: "произошла ошибка" }));
-});
+router.post("/", addCard);
 
-router.delete("/:cardId", (req, res) => {
-  Card.findById(req.params.cardId)
-    .then(() => res.send({ message: "карточка удалена" }))
-    .catch((err) => res.status(500).send({ message: "Проищошла ошибка" }));
-});
+router.get("/", getCards);
 
-router.put("/:cardId/likes", (req, res) => {
-  Card.findByIdAndUpdate(
-    req.params.cardId,
-    { $addToSet: { likes: req.user._id } },
-    { new: true }
-  )
-    .then(() => res.send({ message: "лайк поставлен" }))
-    .catch((err) => res.status({ message: err.message }));
-});
+router.delete("/:cardId", likeCard);
 
-router.delete("/:cardId/likes", (req, res) => {
-  Card.findByIdAndUpdate(
-    req.params.cardId,
-    { $$pull: { likes: req.user._id } },
-    { new: true }
-  )
-    .then(() => res.send({ message: "лайк поставлен" }))
-    .catch((err) => res.status({ message: err.message }));
-});
+router.delete("/:cardId/likes", dislikeCard);
 
 module.exports = router;
