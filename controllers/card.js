@@ -37,7 +37,7 @@ module.exports.deleteCard = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: err.message });
       }
-      if (err.name === 'Error') {
+      if (err.name === 'NotFoundError') {
         return res.status(404).send({ message: err.message });
       }
       return res.status(500).send({ message: 'Что-то пошло не так...' });
@@ -51,14 +51,14 @@ module.exports.likeCard = (req, res) => {
     { new: true },
   )
     .orFail(() => {
-      throw new Error('NotFound');
+      throw new NotFoundError('NotFound');
     })
     .then(() => res.send({ message: 'лайк' }))
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: err.message });
       }
-      if (err.name === 'Error') {
+      if (err.name === 'NotFoundError') {
         return res.status(404).send({ message: err.message });
       }
       return res.status(500).send({ message: 'Что-то пошло не так...' });
@@ -72,14 +72,14 @@ module.exports.dislikeCard = (req, res) => {
     { new: true },
   )
     .orFail(() => {
-      throw new Error('NotFound');
+      throw new NotFoundError('NotFound');
     })
     .then(() => res.send({ message: 'дизлайк' }))
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: err.message });
       }
-      if (err.name === 'Error') {
+      if (err.name === 'NotFoundError') {
         return res.status(404).send({ message: err.message });
       }
       return res.status(500).send({ message: 'Что-то пошло не так...' });
