@@ -31,7 +31,7 @@ module.exports.getUser = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: err.message });
       }
-      if (err.name === 'Error') {
+      if (err.name === 'NotFoundError') {
         return res.status(404).send({ message: err.message });
       }
 
