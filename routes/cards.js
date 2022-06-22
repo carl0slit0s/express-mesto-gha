@@ -10,7 +10,7 @@ const {
 
 router.post('/', addCard);
 
-router.get('README.md', getCards);
+router.get('/', getCards);
 
 router.delete('/:cardId', deleteCard);
 
