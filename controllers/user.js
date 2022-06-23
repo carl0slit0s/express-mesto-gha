@@ -4,7 +4,7 @@ class NotFoundError extends Error {
   constructor(message) {
     super(message);
     this.name = 'NotFoundError';
-    this.statusCode = 400;
+    this.statusCode = 404;
   }
 }
 
@@ -32,7 +32,7 @@ module.exports.getUser = (req, res) => {
         return res.status(400).send({ message: err.message });
       }
       if (err.name === 'NotFoundError') {
-        return res.status(404).send({ message: err.message });
+        return res.send({ message: err.message });
       }
 
       return res.status(500).send({ message: 'Что-то пошло не так...' });
