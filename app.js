@@ -1,11 +1,11 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const { login, creatUser } = require("./controllers/user");
-const { isAuthorized } = require("./middlewares/auth");
-const { reqErorr, authErorr, notFoundErorr } = require("./middlewares/errors");
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const { login, creatUser } = require('./controllers/user');
+const { isAuthorized } = require('./middlewares/auth');
+const { reqErorr, authErorr, notFoundErorr } = require('./middlewares/errors');
 
-mongoose.connect("mongodb://localhost:27017/mestodb");
+mongoose.connect('mongodb://localhost:27017/mestodb');
 
 const PORT = 3000;
 const app = express();
@@ -20,12 +20,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //   next();
 // });
-app.post("/signin", login);
-app.post("/signup", creatUser);
 
-app.use("/", isAuthorized);
-app.use("/users", require("./routes/users"));
-app.use("/cards", require("./routes/cards"));
+app.post('/signin', login);
+app.post('/signup', creatUser);
+
+app.use('/', isAuthorized);
+app.use('/users', require('./routes/users'));
+app.use('/cards', require('./routes/cards'));
 
 app.use((err, req, res, next) => {
   // console.log(err.statusCode);
@@ -34,11 +35,11 @@ app.use((err, req, res, next) => {
   }
   // console.log(err.stack);
 
-  res.status(500).send({ message: "что-то пошло не так" });
+  res.status(500).send({ message: 'что-то пошло не так' });
 });
 
 // app.use((req, res) => {
-//   res.status(404).send({ message: "страницы не существует" });
+//   res.status(404).send({ message: 'страницы не существует' });
 // });
 
 app.listen(PORT, () => {});
