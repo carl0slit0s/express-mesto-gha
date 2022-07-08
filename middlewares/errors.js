@@ -7,7 +7,7 @@ const reqErorr = () => {
 const authErorr = () => {
   const error = new Error('ошибка авторизации');
   error.statusCode = 401;
-  return error;
+  throw error;
 };
 
 const notFoundErorr = () => {

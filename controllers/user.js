@@ -88,7 +88,13 @@ module.exports.updateUsers = (req, res) => {
     { name, about },
     { new: true, runValidators: true },
   )
-    .then((user) => res.send(user))
+    .then((user) => res.send({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      email: user.avatar,
+      _id: user._id,
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(400).send({ message: err.message });

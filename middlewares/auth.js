@@ -16,7 +16,9 @@ module.exports.isAuthorized = (req, res, next) => {
   try {
     const payload = jwt.verify(token, 'very_secret');
     req.user = payload;
+    console.log('первая точка')
     next();
+    console.log('вторая точка')
   } catch (err) {
     authErorr();
   }
