@@ -16,4 +16,12 @@ const notFoundErorr = () => {
   throw error;
 };
 
-module.exports = { reqErorr, authErorr, notFoundErorr };
+const notFoundPageErorr = (req, res) => {
+  res.status(404).send({ message: 'страница не найдена' });
+};
+module.exports = {
+  reqErorr,
+  authErorr,
+  notFoundErorr,
+  notFoundPageErorr,
+};

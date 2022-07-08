@@ -5,6 +5,7 @@ const { celebrate, Joi } = require('celebrate');
 const { errors } = require('celebrate');
 const { login, creatUser } = require('./controllers/user');
 const { isAuthorized } = require('./middlewares/auth');
+const { notFoundPageErorr } = require('./middlewares/errors');
 // const { reqErorr, authErorr, notFoundErorr } = require('./middlewares/errors');
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
@@ -55,8 +56,9 @@ app.use((err, req, res, next) => {
   return res.status(500).send({ message: 'что-то пошло не так' });
 });
 
-// app.use((req, res) => {
-//   res.status(404).send({ message: 'страницы не существует' });
-// });
+app.use((req, res) => {
+  notFoundPageErorr(req, res);
+});
 
+// app.use('*', notFoundPageErorr());
 app.listen(PORT, () => {});
