@@ -109,8 +109,9 @@ module.exports.updateUsers = (req, res) => {
 };
 
 module.exports.updateAvatar = (req, res) => {
+  console.log(req.user.id)
   User.findByIdAndUpdate(
-    req.user._id,
+    req.user.id,
     { avatar: req.body.avatar },
     { new: true, runValidators: true },
   )
