@@ -5,7 +5,7 @@ const reqErorr = () => {
 };
 
 const authErorr = () => {
-  const error = new Error('Неправильный емайл или пароль');
+  const error = new Error('ошибка авторизации');
   error.statusCode = 401;
   throw error;
 };
