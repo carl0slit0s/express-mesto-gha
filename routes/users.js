@@ -17,7 +17,6 @@ const {
 router.get('/me', getUserData);
 router.get('/:userId', getUser);
 
-
 router.get('/', getUsers);
 
 router.patch('/me', updateUsers);
