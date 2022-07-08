@@ -63,8 +63,7 @@ module.exports.creatUser = (req, res) => {
 };
 
 module.exports.getUser = (req, res, next) => {
-  console.log(req.params);
-  console.log('первая точка');
+  console.log(req.user.id);
   User.findById(req.params.userId)
     .then((user) => {
       if (!user) {
@@ -83,8 +82,9 @@ module.exports.getUsers = (req, res) => {
 
 module.exports.updateUsers = (req, res) => {
   const { name, about } = req.body;
+  console.log(req.user.id)
   User.findByIdAndUpdate(
-    req.user._id,
+    req.user.id,
     { name, about },
     { new: true, runValidators: true },
   )
