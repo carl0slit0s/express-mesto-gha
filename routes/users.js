@@ -24,10 +24,8 @@ router.get('/', getUsers);
 router.patch('/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    email: Joi.string().required().email(),
     about: Joi.string().min(2).max(30),
     avatar: Joi.string().min(18),
-    password: Joi.string().required().min(8),
   }),
 }), updateUsers);
 
