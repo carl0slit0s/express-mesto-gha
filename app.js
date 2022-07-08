@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { login, creatUser } = require('./controllers/user');
 const { isAuthorized } = require('./middlewares/auth');
-const { reqErorr, authErorr, notFoundErorr } = require('./middlewares/errors');
+// const { reqErorr, authErorr, notFoundErorr } = require('./middlewares/errors');
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
@@ -28,14 +28,12 @@ app.use('/', isAuthorized);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
-app.use((err, req, res, next) => {
-  // console.log(err.statusCode);
+app.use((err, req, res) => {
   if (err.statusCode) {
     return res.status(err.statusCode).send({ message: err.message });
   }
-  // console.log(err.stack);
 
-  res.status(500).send({ message: 'что-то пошло не так' });
+  return res.status(500).send({ message: 'что-то пошло не так' });
 });
 
 // app.use((req, res) => {
