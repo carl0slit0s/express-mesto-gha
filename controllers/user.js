@@ -63,15 +63,17 @@ module.exports.creatUser = (req, res) => {
 };
 
 module.exports.getUser = (req, res, next) => {
-  console.log(req.user.id);
-  User.findById(req.params.userId)
-    .then((user) => {
-      if (!user) {
-        notFoundErorr();
-      }
-      res.send({ user });
-    })
-    .catch(next);
+  console.log(req.params.userId);
+  try {
+    User.findById(req.params.userId)
+      .then((user) => {
+        if (!user) {
+          notFoundErorr();
+        }
+        res.send({ user });
+      })
+      .catch(next);
+  } catch (err) { notFoundErorr() }
 };
 
 module.exports.getUsers = (req, res) => {
