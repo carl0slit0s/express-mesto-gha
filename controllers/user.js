@@ -108,8 +108,8 @@ module.exports.updateUsers = (req, res) => {
     });
 };
 
-module.exports.updateAvatar = (req, res) => {
-  console.log(req.user.id)
+module.exports.updateAvatar = (req, res, next) => {
+  console.log(req.user.id);
   User.findByIdAndUpdate(
     req.user.id,
     { avatar: req.body.avatar },
@@ -117,7 +117,8 @@ module.exports.updateAvatar = (req, res) => {
   )
     .then((avatar) => res.send({ avatar }))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      console.log(err)
+      if (err.name === 'Bad Request') {
         return res.status(400).send({ message: err.message });
       }
       if (err.name === 'CastError') {

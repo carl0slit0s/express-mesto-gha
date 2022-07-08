@@ -1,5 +1,7 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+
+const hexAvatar = (val) => /(http|https):\/\/([\w.]+\/?)\S*/.test(val);
 // const { celebrate, joi } = require('celebrate');
 
 const {
@@ -25,10 +27,15 @@ router.patch('/me', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().min(18),
+    avatar: Joi.string().pattern(/(http|https):\/\/([\w.]+\/?)\S*/),
   }),
 }), updateUsers);
 
-router.patch('/me/avatar', updateAvatar);
+router.patch('/me/avatar', celebrate({
+  body: Joi.object().keys({
+    avatar: Joi.string()
+    // .pattern(/(http|https):\/\/([\w.]+\/?)\S*/),
+  }),
+}), updateAvatar);
 
 module.exports = router;
