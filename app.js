@@ -29,7 +29,7 @@ app.post('/signin', celebrate({
     email: Joi.string().required().email(),
     about: Joi.string().min(2).max(30),
     avatar: Joi.number().integer().min(18),
-    password: Joi.string().required().min(8),
+    password: Joi.string().required(),
   }),
 }), login);
 app.post('/signup', celebrate({
@@ -42,7 +42,7 @@ app.post('/signup', celebrate({
   }),
 }), creatUser);
 
-app.use('/', isAuthorized);
+app.use(isAuthorized);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
