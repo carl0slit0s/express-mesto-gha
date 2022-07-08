@@ -115,17 +115,25 @@ module.exports.updateAvatar = (req, res, next) => {
     { avatar: req.body.avatar },
     { new: true, runValidators: true },
   )
-    .then((avatar) => res.send({ avatar }))
-    .catch((err) => {
-      console.log(err)
-      if (err.name === 'Bad Request') {
-        return res.status(400).send({ message: err.message });
+    .then((avatar) => {
+      if (!avatar) {
+        console.log(123);
       }
-      if (err.name === 'CastError') {
-        return res.status(404).send({ message: err.message });
-      }
-      return res.status(500).send({ message: 'Что-то пошло не так...' });
-    });
+
+      res.send({ avatar });
+    })
+    .catch(next);
+
+    // .catch((err) => {
+    //   console.log(err)
+    //   if (err.name === 'Bad Request') {
+    //     return res.status(400).send({ message: err.message });
+    //   }
+    //   if (err.name === 'CastError') {
+    //     return res.status(404).send({ message: err.message });
+    //   }
+    //   return res.status(500).send({ message: 'Что-то пошло не так...' });
+    // });
 };
 
 module.exports.login = (req, res, next) => {
