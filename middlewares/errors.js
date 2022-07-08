@@ -1,19 +1,19 @@
 const reqErorr = () => {
-  const error = new Error('Не передан емайл или пароль');
+  const error = new Error('ошибка запроса');
   error.statusCode = 400;
-  throw error;
+  return error;
 };
 
 const authErorr = () => {
   const error = new Error('ошибка авторизации');
   error.statusCode = 401;
-  throw error;
+  return error;
 };
 
 const notFoundErorr = () => {
   const error = new Error('Пользователь не найден');
   error.statusCode = 404;
-  throw error;
+  return error;
 };
 
 module.exports = { reqErorr, authErorr, notFoundErorr };

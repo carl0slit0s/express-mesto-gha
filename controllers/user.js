@@ -63,7 +63,8 @@ module.exports.creatUser = (req, res) => {
 };
 
 module.exports.getUser = (req, res, next) => {
-  console.log(req.params)
+  console.log(req.params);
+  console.log('первая точка');
   User.findById(req.params.userId)
     .then((user) => {
       if (!user) {
@@ -71,7 +72,7 @@ module.exports.getUser = (req, res, next) => {
       }
       res.send({ user });
     })
-    .catch(next);
+    .catch(() => next(reqErorr()));
 };
 
 module.exports.getUsers = (req, res) => {
