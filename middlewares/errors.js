@@ -13,8 +13,14 @@ const authErorr = () => {
 const notFoundErorr = () => {
   const error = new Error('Пользователь не найден');
   error.statusCode = 404;
-  throw error;
+  return error;
 };
+
+// const notFoundErorr = () => {
+//   const error = new Error('Пользователь не найден');
+//   error.statusCode = 404;
+//   throw error;
+// };
 
 const notFoundPageErorr = (req, res) => {
   res.status(404).send({ message: 'страница не найдена' });

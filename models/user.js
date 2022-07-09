@@ -32,7 +32,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    use: hexAvatar,
     validate: {
       validator: (val) => validator.isEmail(val),
       message: 'некоректная почта',

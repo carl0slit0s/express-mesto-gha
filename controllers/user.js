@@ -29,7 +29,7 @@ module.exports.getUserData = (req, res) => {
     });
 };
 
-module.exports.creatUser = (req, res) => {
+module.exports.creatUser = (req, res, next) => {
   const {
     name,
     about,
@@ -54,26 +54,27 @@ module.exports.creatUser = (req, res) => {
       email: user.avatar,
       _id: user._id,
     }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: err.message });
-      }
-      return res.status(500).send({ message: 'Что-то пошло не так...' });
-    });
+    .catch(next)
+      // if (err.name === 'ValidationError') {
+      //   return res.status(400).send({ message: err.message });
+      // }
+      // return res.status(500).send({ message: 'Что-то пошло не так...' });
+    ;
 };
 
 module.exports.getUser = (req, res, next) => {
-  console.log(req.params.userId);
-  try {
-    User.findById(req.params.userId)
-      .then((user) => {
-        if (!user) {
-          notFoundErorr();
-        }
-        res.send({ user });
-      })
-      .catch(next);
-  } catch (err) { notFoundErorr() }
+  console.log(req.params);
+  // try {
+  User.findById(req.params.userId)
+    .then((user) => {
+      console.log(user);
+      if (!user) {
+        notFoundErorr();
+      }
+      res.send({ user });
+    })
+    .catch((err) => next(notFoundErorr(err)));
+  // } catch (err) { notFoundErorr() }
 };
 
 module.exports.getUsers = (req, res) => {
