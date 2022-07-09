@@ -132,12 +132,11 @@ module.exports.login = (req, res, next) => {
         if (!isPasswordCorrect) {
           authErorr();
         }
-        const token = jwt.sign({ id: user._id }, 'very_secret');
-        res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true });
+        return jwt.sign({ id: user._id }, 'very_secret');
         // { maxAge: 3600000 * 24 * 7 }
       })
       .then((token) => {
-        res.send({ token });
+        res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true });
       })
       .catch(next);
   } catch (err) {
