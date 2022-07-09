@@ -132,7 +132,8 @@ module.exports.login = (req, res, next) => {
         if (!isPasswordCorrect) {
           authErorr();
         }
-        return jwt.sign({ id: user._id }, 'very_secret', { maxAge: 3600000 * 24 * 7 });
+        return jwt.sign({ id: user._id }, 'very_secret');
+        // { maxAge: 3600000 * 24 * 7 }
       })
       .then((token) => {
         res.send({ token });
