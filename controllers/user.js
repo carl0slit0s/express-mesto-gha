@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
-  // reqErorr,
+  reqErorr,
   authErorr,
   notFoundErorr,
   alreadyExistsError,
@@ -132,7 +132,7 @@ module.exports.login = (req, res, next) => {
         if (!isPasswordCorrect) {
           authErorr();
         }
-        return jwt.sign({ id: user._id }, 'very_secret', { maxAge: 3600000 * 24 * 7, httpOnly: true });
+        return jwt.sign({ id: user._id }, 'very_secret', { maxAge: 3600000 * 24 * 7 });
       })
       .then((token) => {
         res.send({ token });
