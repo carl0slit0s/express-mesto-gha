@@ -13,7 +13,7 @@ const authErorr = () => {
 const notFoundErorr = () => {
   const error = new Error('Пользователь не найден');
   error.statusCode = 404;
-  return error;
+  throw error;
 };
 
 // const notFoundErorr = () => {
