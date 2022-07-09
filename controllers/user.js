@@ -68,13 +68,12 @@ module.exports.creatUser = (req, res, next) => {
 };
 
 module.exports.getUser = (req, res, next) => {
-  console.log(req.user.id);
   // try {
   User.findById(req.params.userId)
     .then((user) => {
-      console.log(user);
-      if (!user) {
-        next(notFoundErorr());
+      console.log('123', user);
+      if (user === null) {
+        return next(notFoundErorr());
       }
       res.send({ user });
     })

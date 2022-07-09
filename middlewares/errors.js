@@ -12,9 +12,8 @@ const authErorr = () => {
 
 const notFoundErorr = () => {
   const error = new Error('Пользователь не найден');
-  console.log()
   error.statusCode = 404;
-  throw error;
+  return error;
 };
 
 const alreadyExistsError = () => {
