@@ -9,17 +9,12 @@ class NotFoundError extends Error {
   }
 }
 
-module.exports.addCard = (req, res) => {
+module.exports.addCard = (req, res, next) => {
   const { name, link } = req.body;
   const owner = req.user.id;
   Card.create({ name, link, owner })
     .then((card) => res.status(201).send({ card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: err.message });
-      }
-      return res.status(500).send({ message: 'Что-то пошло не так...' });
-    });
+    .catch(next);
 };
 
 module.exports.getCards = (req, res, next) => {
