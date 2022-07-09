@@ -69,7 +69,7 @@ module.exports.getUser = (req, res, next) => {
     .then((user) => {
       console.log(user);
       if (!user) {
-        notFoundErorr();
+        next(notFoundErorr());
       }
       res.send({ user });
     })
