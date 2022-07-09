@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { reqErorr, authErorr, notFoundErorr } = require('../middlewares/errors');
+const { reqErorr, authErorr, notFoundErorr, alreadyExistsError } = require('../middlewares/errors');
 
 class NotFoundError extends Error {
   constructor(message) {
@@ -54,7 +54,12 @@ module.exports.creatUser = (req, res, next) => {
       email: user.avatar,
       _id: user._id,
     }))
-    .catch(next)
+    // .catch(next)
+    .catch((err) => {
+      if (err.code === 11000) {
+        next(alreadyExistsError());
+      }
+    })
       // if (err.name === 'ValidationError') {
       //   return res.status(400).send({ message: err.message });
       // }

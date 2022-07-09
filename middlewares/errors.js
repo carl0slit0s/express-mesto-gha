@@ -17,11 +17,11 @@ const notFoundErorr = () => {
   throw error;
 };
 
-// const notFoundErorr = () => {
-//   const error = new Error('Пользователь не найден');
-//   error.statusCode = 404;
-//   throw error;
-// };
+const alreadyExistsError = () => {
+  const error = new Error('Почта занята');
+  error.statusCode = 409;
+  return error;
+};
 
 const notFoundPageErorr = (req, res) => {
   res.status(404).send({ message: 'страница не найдена' });
@@ -31,4 +31,5 @@ module.exports = {
   authErorr,
   notFoundErorr,
   notFoundPageErorr,
+  alreadyExistsError,
 };
