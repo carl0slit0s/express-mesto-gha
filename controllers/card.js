@@ -32,7 +32,11 @@ module.exports.deleteCard = (req, res) => {
     .orFail(() => {
       throw new NotFoundError('NotFound');
     })
-    .then(() => res.send({ message: 'карточка удалена' }))
+    .then((card) => {
+      if (req.user.id !== card.owner._id.toString()) {
+        throw new NotFoundError('NotFound');
+      }
+      res.send({ message: 'карточка удалена' })})
     .catch((err) => {
       if (err.name === 'CastError') {
         return res.status(400).send({ message: err.message });

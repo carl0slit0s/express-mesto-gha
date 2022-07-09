@@ -77,13 +77,7 @@ module.exports.getUser = (req, res, next) => {
         return next(notFoundErorr());
       }
       res.send({ user });})
-    .catch(err => {
-      console.log(err.name)
-      if (err.name === 'CastError') {
-        next(notFoundErorr())
-      }
-      next(err)
-    });
+    .catch(next);
 };
 
 module.exports.getUsers = (req, res) => {
