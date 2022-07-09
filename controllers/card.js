@@ -28,14 +28,15 @@ module.exports.getCards = (req, res) => {
     .catch(() => res.status(500).send({ message: 'Что-то пошло не так...' }));
 };
 
-module.exports.deleteCard = (req, res) => {
+module.exports.deleteCard = (req, res, next) => {
   Card.findByIdAndRemove(req.params.cardId)
     .orFail(() => {
       throw new NotFoundError('NotFound');
     })
     .then((card) => {
+      console.log(123)
       if (req.user.id !== card.owner._id.toString()) {
-        throw noRightsError();
+        return next(noRightsError());
       }
       res.send({ message: 'карточка удалена' })})
     .catch((err) => {
