@@ -6,7 +6,6 @@ const { authErorr } = require('./errors');
 module.exports.isAuthorized = (req, res, next) => {
   const auth = req.headers.authorization;
   if (!auth) {
-    console.log('проверка авторизации');
     authErorr();
   }
   const token = auth.replace('Bearer ', '');
@@ -16,9 +15,7 @@ module.exports.isAuthorized = (req, res, next) => {
   try {
     const payload = jwt.verify(token, 'very_secret');
     req.user = payload;
-    console.log('первая точка')
     next();
-    console.log('вторая точка')
   } catch (err) {
     authErorr();
   }

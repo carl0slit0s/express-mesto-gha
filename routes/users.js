@@ -1,9 +1,6 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
-const hexAvatar = (val) => /(http|https):\/\/([\w.]+\/?)\S*/.test(val);
-// const { celebrate, joi } = require('celebrate');
-
 const {
   // creatUser,
   getUser,

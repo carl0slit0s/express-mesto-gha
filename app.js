@@ -6,7 +6,6 @@ const { errors } = require('celebrate');
 const { login, creatUser } = require('./controllers/user');
 const { isAuthorized } = require('./middlewares/auth');
 const { notFoundPageErorr } = require('./middlewares/errors');
-// const { reqErorr, authErorr, notFoundErorr } = require('./middlewares/errors');
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
@@ -15,14 +14,6 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: '62acbb78863178a82c1e1aea',
-//   };
-
-//   next();
-// });
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -49,7 +40,6 @@ app.use('/cards', require('./routes/cards'));
 
 app.use(errors());
 app.use((err, req, res, next) => {
-  console.log(err.statusCode)
   if (err.statusCode) {
     return res.status(err.statusCode).send({ message: err.message });
   }
@@ -61,5 +51,4 @@ app.use((req, res) => {
   notFoundPageErorr(req, res);
 });
 
-// app.use('*', notFoundPageErorr());
 app.listen(PORT, () => {});
