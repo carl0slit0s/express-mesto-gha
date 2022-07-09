@@ -22,6 +22,12 @@ const alreadyExistsError = () => {
   return error;
 };
 
+const noRightsError = () => {
+  const error = new Error('нет прав доступа');
+  error.statusCode = 403;
+  return error;
+};
+
 const notFoundPageErorr = (req, res) => {
   res.status(404).send({ message: 'страница не найдена' });
 };
@@ -31,4 +37,5 @@ module.exports = {
   notFoundErorr,
   notFoundPageErorr,
   alreadyExistsError,
+  noRightsError,
 };

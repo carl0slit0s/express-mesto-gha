@@ -1,4 +1,5 @@
 const Card = require('../models/card');
+const { noRightsError } = require('../middlewares/errors');
 
 class NotFoundError extends Error {
   constructor(message) {
@@ -34,7 +35,7 @@ module.exports.deleteCard = (req, res) => {
     })
     .then((card) => {
       if (req.user.id !== card.owner._id.toString()) {
-        throw new NotFoundError('NotFound');
+        throw noRightsError();
       }
       res.send({ message: 'карточка удалена' })})
     .catch((err) => {
