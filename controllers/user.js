@@ -139,6 +139,6 @@ module.exports.login = (req, res, next) => {
       })
       .catch(next);
   } catch (err) {
-    next(err);
+    authErorr();
   }
 };
