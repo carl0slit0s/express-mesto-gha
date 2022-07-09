@@ -39,18 +39,10 @@ module.exports.deleteCard = (req, res, next) => {
       }
       return res.send({ message: 'карточка удалена' });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: err.message });
-      }
-      if (err.name === 'NotFoundError') {
-        return res.status(404).send({ message: err.message });
-      }
-      return res.status(500).send({ message: 'Что-то пошло не так...' });
-    });
+    .catch(next);
 };
 
-module.exports.likeCard = (req, res) => {
+module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $addToSet: { likes: req.user._id } },
@@ -60,18 +52,10 @@ module.exports.likeCard = (req, res) => {
       throw new NotFoundError('NotFound');
     })
     .then(() => res.send({ message: 'лайк' }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: err.message });
-      }
-      if (err.name === 'NotFoundError') {
-        return res.status(404).send({ message: err.message });
-      }
-      return res.status(500).send({ message: 'Что-то пошло не так...' });
-    });
+    .catch(next);
 };
 
-module.exports.dislikeCard = (req, res) => {
+module.exports.dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } },
@@ -81,13 +65,5 @@ module.exports.dislikeCard = (req, res) => {
       throw new NotFoundError('NotFound');
     })
     .then(() => res.send({ message: 'дизлайк' }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: err.message });
-      }
-      if (err.name === 'NotFoundError') {
-        return res.status(404).send({ message: err.message });
-      }
-      return res.status(500).send({ message: 'Что-то пошло не так...' });
-    });
+    .catch(next);
 };
