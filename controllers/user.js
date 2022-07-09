@@ -68,18 +68,22 @@ module.exports.creatUser = (req, res, next) => {
 };
 
 module.exports.getUser = (req, res, next) => {
-  // try {
-  User.findById(req.params.userId)
+  const { userId } = req.params;
+  console.log('userId', userId)
+  User.findById(userId)
     .then((user) => {
       console.log('123', user);
       if (user === null) {
         return next(notFoundErorr());
       }
-      res.send({ user });
-    })
-    .catch((err) => {
+      res.send({ user });})
+    .catch(err => {
       console.log(err.name)
-      next(reqErorr(err))});
+      if (err.name === 'CastError') {
+        next(notFoundErorr())
+      }
+      next(err)
+    });
 };
 
 module.exports.getUsers = (req, res) => {

@@ -49,6 +49,7 @@ app.use('/cards', require('./routes/cards'));
 
 app.use(errors());
 app.use((err, req, res, next) => {
+  console.log(err.statusCode)
   if (err.statusCode) {
     return res.status(err.statusCode).send({ message: err.message });
   }
