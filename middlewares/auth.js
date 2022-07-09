@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken');
 const { authErorr } = require('./errors');
 
 module.exports.isAuthorized = (req, res, next) => {
-  const auth = req.headers.authorization;
-  if (!auth) {
-    authErorr();
-  }
+  // const auth = req.headers.authorization;
+  // if (!auth) {
+  //   authErorr();
+  // }
   // const token = auth.replace('Bearer ', '');
   const token = req.cookies.jwt;
   if (!token) {
