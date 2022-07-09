@@ -63,7 +63,7 @@ module.exports.creatUser = (req, res, next) => {
 };
 
 module.exports.getUser = (req, res, next) => {
-  console.log(req.params);
+  console.log(req.user.id);
   // try {
   User.findById(req.params.userId)
     .then((user) => {

@@ -19,7 +19,11 @@ const {
 // router.post('/auth', isAuthorized);
 
 router.get('/me', getUserData);
-router.get('/:userId', getUser);
+router.get('/:userId', celebrate({
+  body: Joi.object().keys({
+    userId: Joi.string().min(24),
+  }),
+}), getUser);
 
 router.get('/', getUsers);
 
