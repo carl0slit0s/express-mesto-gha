@@ -74,7 +74,6 @@ module.exports.getUser = (req, res, next) => {
       res.send({ user });
     })
     .catch((err) => next(reqErorr(err)));
-  // } catch (err) { notFoundErorr() }
 };
 
 module.exports.getUsers = (req, res) => {
