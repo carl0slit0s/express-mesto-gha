@@ -8,7 +8,8 @@ module.exports.isAuthorized = (req, res, next) => {
   if (!auth) {
     authErorr();
   }
-  const token = auth.replace('Bearer ', '');
+  // const token = auth.replace('Bearer ', '');
+  const token = req.cookies.jwt;
   if (!token) {
     authErorr();
   }
