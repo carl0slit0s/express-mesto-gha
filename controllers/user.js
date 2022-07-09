@@ -16,22 +16,13 @@ class NotFoundError extends Error {
   }
 }
 
-module.exports.getUserData = (req, res) => {
+module.exports.getUserData = (req, res, next) => {
   User.findById(req.user.id)
     .orFail(() => {
       throw new NotFoundError('NotFound');
     })
     .then((user) => res.send({ user }))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(400).send({ message: err.message });
-      }
-      if (err.name === 'NotFoundError') {
-        return res.status(404).send({ message: err.message });
-      }
-
-      return res.status(500).send({ message: 'Что-то пошло не так...' });
-    });
+    .catch(next);
 };
 
 module.exports.creatUser = (req, res, next) => {
