@@ -29,6 +29,10 @@ const noRightsError = () => {
 };
 
 const notFoundPageErorr = (req, res) => {
+  // return next(err)
+  // const error = new Error('страница не найдена');
+  // error.statusCode = 404;
+  // return error;
   res.status(404).send({ message: 'страница не найдена' });
 };
 module.exports = {

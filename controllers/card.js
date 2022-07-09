@@ -29,7 +29,8 @@ module.exports.getCards = (req, res, next) => {
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  const { cardId } = req.params;
+  Card.findById(cardId)
     .orFail(() => {
       throw new NotFoundError('NotFound');
     })
@@ -37,7 +38,11 @@ module.exports.deleteCard = (req, res, next) => {
       if (req.user.id !== card.owner._id.toString()) {
         return next(noRightsError());
       }
-      return res.send({ message: 'карточка удалена' });
+
+      return Card.findByIdAndRemove(cardId);
+    })
+    .then(() => {
+      res.send({ message: 'карточка удалена' });
     })
     .catch(next);
 };
