@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
-  reqErorr,
+  // reqErorr,
   authErorr,
   notFoundErorr,
   alreadyExistsError,
@@ -55,6 +55,7 @@ module.exports.creatUser = (req, res, next) => {
       if (err.code === 11000) {
         next(alreadyExistsError());
       }
+      next(err);
     });
 };
 
@@ -115,10 +116,9 @@ module.exports.updateAvatar = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-
-  if (!email || !password) {
-    reqErorr();
-  }
+  // if (!email || !password) {
+  //   reqErorr();
+  // }
   try {
     User.findOne({ email })
       .select('+password')
@@ -132,13 +132,13 @@ module.exports.login = (req, res, next) => {
         if (!isPasswordCorrect) {
           authErorr();
         }
-        return jwt.sign({ id: user._id }, 'very_secret');
+        return jwt.sign({ id: user._id }, 'very_secret', { maxAge: 3600000 * 24 * 7, httpOnly: true });
       })
       .then((token) => {
         res.send({ token });
       })
       .catch(next);
   } catch (err) {
-    authErorr();
+    next(err);
   }
 };
