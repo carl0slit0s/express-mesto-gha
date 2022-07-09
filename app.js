@@ -57,9 +57,9 @@ app.use((err, req, res, next) => {
   return res.status(500).send({ message: 'что-то пошло не так' });
 });
 
-// app.use((req, res) => {
-//   notFoundPageErorr(req, res);
-// });
+app.use((req, res) => {
+  notFoundPageErorr(req, res);
+});
 
 // app.use('*', notFoundPageErorr());
 app.listen(PORT, () => {});
