@@ -52,9 +52,12 @@ module.exports.creatUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.code === 11000) {
-        next(alreadyExistsError());
+        return next(alreadyExistsError());
       }
-      next(err);
+      if (err.name === 'ValidationError') {
+        return next(validErorr());
+      }
+      return next(err);
     });
 };
 
@@ -104,9 +107,9 @@ module.exports.updateAvatar = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(validErorr());
+        return next(validErorr());
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -125,7 +128,7 @@ module.exports.login = (req, res, next) => {
         if (!isPasswordCorrect) {
           authErorr();
         }
-        const token = jwt.sign({ id: user._id }, 'very_secret');
+        const token = jwt.sign({ id: user._id }, 'very_secret', { expiresIn: '7d' });
         res
           .cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true })
           .send({ message: 'Привет!', token });
