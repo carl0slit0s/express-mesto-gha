@@ -129,11 +129,7 @@ module.exports.login = (req, res, next) => {
         res
           .cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true })
           .send({ message: 'Привет!', token });
-        // { maxAge: 3600000 * 24 * 7 }
       })
-      // .then((token) => {
-      //   res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true });
-      // })
       .catch(next);
   } catch (err) {
     next(err);
