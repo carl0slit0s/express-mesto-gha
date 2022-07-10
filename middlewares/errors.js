@@ -28,13 +28,18 @@ const noRightsError = () => {
   return error;
 };
 
-const notFoundPageErorr = (req, res) => {
-  // return next(err)
-  // const error = new Error('страница не найдена');
-  // error.statusCode = 404;
-  // return error;
-  res.status(404).send({ message: 'страница не найдена' });
+const notFoundPageErorr = () => {
+  const error = new Error('страница не найдена');
+  error.statusCode = 404;
+  return error;
 };
+
+const validErorr = () => {
+  const error = new Error('ошибка валидации');
+  error.statusCode = 400;
+  return error;
+};
+
 module.exports = {
   reqErorr,
   authErorr,
@@ -42,4 +47,5 @@ module.exports = {
   notFoundPageErorr,
   alreadyExistsError,
   noRightsError,
+  validErorr,
 };

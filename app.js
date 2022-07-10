@@ -37,8 +37,8 @@ app.use(isAuthorized);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
-app.use((req, res) => {
-  notFoundPageErorr(req, res);
+app.use((req, res, next) => {
+  next(notFoundPageErorr());
 });
 
 app.use(errors());

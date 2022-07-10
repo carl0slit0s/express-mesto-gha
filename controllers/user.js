@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const {
-  reqErorr,
+  validErorr,
   authErorr,
   notFoundErorr,
   alreadyExistsError,
@@ -93,9 +93,8 @@ module.exports.updateUsers = (req, res, next) => {
       _id: user._id,
     }))
     .catch((err) => {
-      console.log(err.name);
       if (err.name === 'ValidationError') {
-        console.log(err.name)
+        next(validErorr());
       }
       next(err);
     });
@@ -110,7 +109,12 @@ module.exports.updateAvatar = (req, res, next) => {
     .then((avatar) => {
       res.send({ avatar });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(validErorr());
+      }
+      next(err);
+    });
 };
 
 module.exports.login = (req, res, next) => {
