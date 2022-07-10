@@ -91,7 +91,10 @@ module.exports.updateUsers = (req, res, next) => {
       email: user.avatar,
       _id: user._id,
     }))
-    .catch(next);
+    .catch((err) => {
+      console.log(err.name);
+      next(err);
+    });
 };
 
 module.exports.updateAvatar = (req, res, next) => {
