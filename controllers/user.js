@@ -50,7 +50,6 @@ module.exports.creatUser = (req, res, next) => {
       email: user.avatar,
       _id: user._id,
     }))
-    // .catch(next)
     .catch((err) => {
       if (err.code === 11000) {
         next(alreadyExistsError());
@@ -78,7 +77,6 @@ module.exports.getUsers = (req, res, next) => {
 };
 
 module.exports.updateUsers = (req, res, next) => {
-  console.log(req);
   const { name, about } = req.body;
   User.findByIdAndUpdate(
     req.user.id,
@@ -114,9 +112,6 @@ module.exports.updateAvatar = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  // if (!email || !password) {
-  //   reqErorr();
-  // }
   try {
     User.findOne({ email })
       .select('+password')
