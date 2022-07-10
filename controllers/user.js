@@ -71,13 +71,14 @@ module.exports.getUser = (req, res, next) => {
     .catch(next);
 };
 
-module.exports.getUsers = (req, res) => {
+module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ users }))
-    .catch(() => res.status(500).send({ message: 'Что-то пошло не так...' }));
+    .catch(next);
 };
 
 module.exports.updateUsers = (req, res, next) => {
+  console.log(req);
   const { name, about } = req.body;
   User.findByIdAndUpdate(
     req.user.id,
@@ -93,6 +94,9 @@ module.exports.updateUsers = (req, res, next) => {
     }))
     .catch((err) => {
       console.log(err.name);
+      if (err.name === 'ValidationError') {
+        console.log(err.name)
+      }
       next(err);
     });
 };
@@ -130,7 +134,7 @@ module.exports.login = (req, res, next) => {
         const token = jwt.sign({ id: user._id }, 'very_secret');
         res
           .cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true })
-          .send({ message: 'Привет!' });
+          .send({ message: 'Привет!', token });
         // { maxAge: 3600000 * 24 * 7 }
       })
       // .then((token) => {
