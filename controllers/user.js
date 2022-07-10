@@ -77,7 +77,7 @@ module.exports.getUsers = (req, res) => {
     .catch(() => res.status(500).send({ message: 'Что-то пошло не так...' }));
 };
 
-module.exports.updateUsers = (req, res) => {
+module.exports.updateUsers = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(
     req.user.id,
@@ -91,15 +91,7 @@ module.exports.updateUsers = (req, res) => {
       email: user.avatar,
       _id: user._id,
     }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(400).send({ message: err.message });
-      }
-      if (err.name === 'CastError') {
-        return res.status(404).send({ message: err.message });
-      }
-      return res.status(500).send({ message: 'Что-то пошло не так...' });
-    });
+    .catch(next);
 };
 
 module.exports.updateAvatar = (req, res, next) => {
