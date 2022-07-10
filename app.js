@@ -37,6 +37,10 @@ app.use(isAuthorized);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
+app.use((req, res) => {
+  notFoundPageErorr(req, res);
+});
+
 app.use(errors());
 app.use((err, req, res, next) => {
   if (err.statusCode) {
@@ -44,10 +48,6 @@ app.use((err, req, res, next) => {
   }
 
   return res.status(500).send({ message: 'что-то пошло не так' });
-});
-
-app.use((req, res) => {
-  notFoundPageErorr(req, res);
 });
 
 app.listen(PORT, () => {});
