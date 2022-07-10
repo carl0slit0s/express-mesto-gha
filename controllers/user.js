@@ -92,12 +92,7 @@ module.exports.updateUsers = (req, res, next) => {
       email: user.avatar,
       _id: user._id,
     }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(validErorr());
-      }
-      next(err);
-    });
+    .catch(next);
 };
 
 module.exports.updateAvatar = (req, res, next) => {

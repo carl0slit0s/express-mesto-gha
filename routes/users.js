@@ -24,12 +24,14 @@ router.get('/:userId', celebrate({
 
 router.get('/', getUsers);
 
-router.patch('/me', updateUsers);
-
-router.patch('/me/avatar', celebrate({
+router.patch('/me', celebrate({
   body: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
     avatar: Joi.string().pattern(/(http|https):\/\/([\w.]+\/?)\S*/),
   }),
-}), updateAvatar);
+}), updateUsers);
+
+router.patch('/me/avatar', updateAvatar);
 
 module.exports = router;
